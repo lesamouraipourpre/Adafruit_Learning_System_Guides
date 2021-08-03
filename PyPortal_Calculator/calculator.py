@@ -12,11 +12,10 @@ def calculate(number_one, operator, number_two):
     return str(result)
 
 class Calculator:
-    def __init__(self, calc_display, clear_button, label_offset):
+    def __init__(self, calc_display, clear_button):
         self._error = False
         self._calc_display = calc_display
         self._clear_button = clear_button
-        self._label_offset = label_offset
         self._accumulator = "0"
         self._operator = None
         self._equal_pressed = False
@@ -50,8 +49,6 @@ class Calculator:
 
     def _set_text(self, text):
         self._calc_display.text = text
-        _, _, screen_w, _ = self._calc_display.bounding_box
-        self._calc_display.x = self._label_offset - screen_w
 
     def _get_text(self):
         return self._calc_display.text
@@ -118,7 +115,7 @@ class Calculator:
             elif input_key in ('+', '-', '/', 'x'):
                 self._handle_operator(input_key)
             elif input_key == ".":
-                if not input_key in self._get_text():
+                if input_key not in self._get_text():
                     self._set_text(self._get_text() + input_key)
                     self._set_button_ce(True)
                     self._equal_pressed = False
